@@ -22,7 +22,10 @@ h2{font-size:22px}
 .juego .info{padding:14px;display:flex;flex-direction:column;gap:8px;flex:1}
 .juego h3{margin:0}
 .juego .datos{color:var(--suave);font-size:13px}
-.juego .acciones{margin-top:auto}
+.juego .acciones{margin-top:auto;display:flex;flex-direction:column;align-items:stretch;text-align:center}
+.aviso-ios{display:none}
+body.ios .aviso-ios{display:block;background:#1d3a2a;border:1px solid #2f6b47;border-radius:12px;padding:12px 14px;color:var(--texto)!important}
+body.ios #bajarTienda,body.ios .portada>.nota{display:none}
 .barra{height:6px;background:#26304a;border-radius:3px;overflow:hidden;display:none}
 .barra i{display:block;height:100%;width:0;background:var(--azul)}
 .pasos li{margin-bottom:12px}

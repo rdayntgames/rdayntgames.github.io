@@ -3,6 +3,10 @@
 (function () {
   var enApp = typeof window.Tienda !== "undefined";
   if (enApp) document.body.classList.add("en-app");
+  // iPhone, iPad (los iPad nuevos dicen «Macintosh» pero tienen pantalla táctil)
+  var esIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) ||
+    (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
+  if (esIOS) document.body.classList.add("ios");
 
   function boton(texto, clase, accion) {
     var b = document.createElement(accion ? "button" : "span");
@@ -25,16 +29,30 @@
       (j.version_texto || "") + (j.tamano ? " · " + j.tamano : "");
     var acc = d.querySelector(".acciones");
 
-    if (j.estado === "pronto" || !j.apk) {
+    if (j.estado === "pronto" || (!j.apk && !j.web)) {
       acc.appendChild(boton("Próximamente", "gris"));
       return d;
     }
     if (!enApp) {
-      var a = document.createElement("a");
-      a.className = "boton";
-      a.href = j.apk;
-      a.textContent = "Descargar APK";
-      acc.appendChild(a);
+      // iPhone/iPad no instala APK: solo se juega en el navegador
+      if (j.web) {
+        var w = document.createElement("a");
+        w.className = "boton verde";
+        w.href = j.web;
+        w.textContent = esIOS ? "Jugar en el navegador" : "Jugar en el navegador (sin instalar)";
+        acc.appendChild(w);
+      }
+      if (j.apk && !esIOS) {
+        var a = document.createElement("a");
+        a.className = "boton";
+        a.href = j.apk;
+        a.textContent = "Descargar para Android";
+        a.style.marginTop = "8px";
+        acc.appendChild(a);
+      }
+      if (esIOS && !j.web) {
+        acc.appendChild(boton("Pronto en iPhone", "gris"));
+      }
       return d;
     }
     var instalada = Tienda.versionInstalada(j.paquete); // -1 = no está
