@@ -90,8 +90,8 @@
           lista.appendChild(t);
         });
         if (enApp && Tienda.versionTienda() < datos.tienda.version) {
-          var aviso = tarjeta({ id: "tienda", nombre: "Hay una tienda nueva",
-            descripcion: "Actualiza la tienda para ver todo lo nuevo.",
+          var aviso = tarjeta({ id: "tienda", nombre: "Hay una versión nueva de NT Juegos",
+            descripcion: "Actualízala con un toque para tener todo lo nuevo.",
             paquete: datos.tienda.paquete, version: datos.tienda.version,
             apk: datos.tienda.apk, estado: "listo" });
           aviso.setAttribute("data-id", "tienda");

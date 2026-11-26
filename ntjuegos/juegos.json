@@ -1,8 +1,8 @@
 {
   "tienda": {
-    "nombre": "JuegaRD",
-    "version": 2,
-    "apk": "descargas/JuegaRD.apk",
+    "nombre": "NT Juegos",
+    "version": 3,
+    "apk": "descargas/NTJuegos.apk",
     "paquete": "rd.juegard.app"
   },
   "juegos": [
