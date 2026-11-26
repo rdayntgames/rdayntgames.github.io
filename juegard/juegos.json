@@ -1,0 +1,22 @@
+{
+  "tienda": {
+    "nombre": "JuegaRD",
+    "version": 1,
+    "apk": "descargas/JuegaRD.apk",
+    "paquete": "rd.juegard.app"
+  },
+  "juegos": [
+    {
+      "id": "ntcityrd",
+      "nombre": "NT City RD",
+      "paquete": "rd.ntcity.juego",
+      "version": 0,
+      "version_texto": "En desarrollo",
+      "tamano": "",
+      "estado": "pronto",
+      "imagen": "img/ntcityrd.jpg",
+      "descripcion": "Mundo abierto dominicano: empieza en Villa Bisonó (Navarrete) y va creciendo por toda la República Dominicana. Pasola, misiones, barrios reales y mucho más.",
+      "apk": ""
+    }
+  ]
+}

@@ -1,0 +1,32 @@
+:root{--fondo:#0d1220;--panel:#161d30;--texto:#eef1f7;--suave:#9aa4bd;--azul:#1f5fd6;--rojo:#d62839;--borde:#26304a}
+*{box-sizing:border-box}
+body{margin:0;font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--fondo);color:var(--texto);line-height:1.5}
+a{color:#8fb4ff}
+.arriba{display:flex;justify-content:space-between;align-items:center;padding:14px 20px;border-bottom:1px solid var(--borde);position:sticky;top:0;background:var(--fondo);z-index:2}
+.arriba nav a{margin-left:16px;text-decoration:none;color:var(--suave)}
+.marca{font-weight:600;font-size:18px}
+.logo{display:inline-grid;place-items:center;width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--azul) 50%,var(--rojo) 50%);color:#fff;font-weight:800;font-size:14px;margin-right:6px}
+.portada{text-align:center;padding:56px 20px 40px;max-width:760px;margin:0 auto}
+.portada h1{font-size:clamp(26px,5vw,42px);margin:0 0 12px}
+.portada p{color:var(--suave)}
+section{padding:0 20px 40px;max-width:1000px;margin:0 auto}
+h2{font-size:22px}
+.boton{display:inline-block;background:var(--azul);color:#fff;text-decoration:none;border:0;border-radius:10px;padding:10px 18px;font-size:15px;font-weight:600;cursor:pointer}
+.boton.grande{padding:14px 26px;font-size:17px;margin:10px 0}
+.boton.gris{background:#3a4460;cursor:default}
+.boton.verde{background:#1d8a4a}
+.nota{color:var(--suave);font-size:14px}
+.lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
+.juego{background:var(--panel);border:1px solid var(--borde);border-radius:14px;overflow:hidden;display:flex;flex-direction:column}
+.juego img{width:100%;aspect-ratio:16/9;object-fit:cover;background:#222b44}
+.juego .info{padding:14px;display:flex;flex-direction:column;gap:8px;flex:1}
+.juego h3{margin:0}
+.juego .datos{color:var(--suave);font-size:13px}
+.juego .acciones{margin-top:auto}
+.barra{height:6px;background:#26304a;border-radius:3px;overflow:hidden;display:none}
+.barra i{display:block;height:100%;width:0;background:var(--azul)}
+.pasos li{margin-bottom:12px}
+.marca,.arriba nav a{white-space:nowrap}
+@media (max-width:480px){.marca{font-size:16px}.arriba nav a:first-child{display:none}.arriba nav a{margin-left:10px;font-size:14px}}
+footer{border-top:1px solid var(--borde);text-align:center;padding:20px;color:var(--suave);font-size:14px}
+body.en-app .arriba nav,body.en-app #portada,body.en-app footer{display:none}
