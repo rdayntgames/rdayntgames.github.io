@@ -1,7 +1,7 @@
 {
   "tienda": {
     "nombre": "JuegaRD",
-    "version": 1,
+    "version": 2,
     "apk": "descargas/JuegaRD.apk",
     "paquete": "rd.juegard.app"
   },
