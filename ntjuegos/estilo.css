@@ -23,6 +23,8 @@ h2{font-size:22px}
 .juego h3{margin:0}
 .juego .datos{color:var(--suave);font-size:13px}
 .juego .acciones{margin-top:auto;display:flex;flex-direction:column;align-items:stretch;text-align:center}
+.boton.oscuro{background:#2b3552}
+.contacto-botones{display:flex;flex-wrap:wrap;gap:10px}
 .aviso-ios{display:none}
 body.ios .aviso-ios{display:block;background:#1d3a2a;border:1px solid #2f6b47;border-radius:12px;padding:12px 14px;color:var(--texto)!important}
 body.ios #bajarTienda,body.ios .portada>.nota{display:none}
