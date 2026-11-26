@@ -1,7 +1,7 @@
 {
   "tienda": {
     "nombre": "NT Juegos",
-    "version": 4,
+    "version": 5,
     "apk": "descargas/NTJuegos.apk",
     "paquete": "rd.juegard.app"
   },
@@ -14,7 +14,7 @@
       "version_texto": "Versión 0.34",
       "tamano": "118 MB",
       "estado": "listo",
-      "imagen": "../img/dale-concho-rd/portada.jpg",
+      "imagen": "img/daleconcho.jpg",
       "descripcion": "El juego del motoconcho dominicano. Manejas tu moto por pueblos, avenidas y caminos de tierra; la gente te vocea «¡Motoconcho!», los llevas a donde van y cobras tu pasaje.",
       "apk": "https://github.com/rdayntgames/rdayntgames.github.io/releases/download/juegos/DaleConchoRD-0.34.apk",
       "web": "jugar/dale-concho-rd/?v=3"
