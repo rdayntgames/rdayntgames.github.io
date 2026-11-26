@@ -92,7 +92,7 @@ body {
 		</style>
 		<link id="-gd-engine-icon" rel="icon" type="image/png" href="index.icon.png" />
 <link rel="apple-touch-icon" href="index.apple-touch-icon.png"/>
-<script>(function(){var r=window.devicePixelRatio||1;if(/iPhone|iPad|iPod|Android/.test(navigator.userAgent)||navigator.maxTouchPoints>1){try{Object.defineProperty(window,"devicePixelRatio",{get:function(){return Math.min(r,1.5)}})}catch(e){}}})();</script>
+<script>(function(){var r=window.devicePixelRatio||1;if(/iPhone|iPad|iPod|Android/.test(navigator.userAgent)||navigator.maxTouchPoints>1){try{Object.defineProperty(window,"devicePixelRatio",{get:function(){return Math.min(r,1.5)}})}catch(e){}}try{if(navigator.audioSession)navigator.audioSession.type="playback"}catch(e){}var listo=false;function abrir(){if(listo)return;listo=true;try{var a=new Audio("data:audio/wav;base64,UklGRkQDAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YSADAAAB");a.loop=true;a.setAttribute("playsinline","");a.volume=0.01;a.play().catch(function(){listo=false})}catch(e){listo=false}}["touchend","pointerup","click","keydown"].forEach(function(t){document.addEventListener(t,abrir,true)});})();</script>
 	</head>
 	<body>
 		<canvas id="canvas">
