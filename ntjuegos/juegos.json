@@ -20,6 +20,19 @@
       "web": "jugar/dale-concho-rd/?v=3"
     },
     {
+      "id": "elcolmadon",
+      "nombre": "El Colmadón",
+      "paquete": "com.elcolmadon.juego",
+      "version": 100,
+      "version_texto": "Versión 1.0",
+      "tamano": "86 MB",
+      "estado": "listo",
+      "imagen": "img/elcolmadon.jpg",
+      "descripcion": "Maneja tu propio colmado de barrio: despacha a la clientela, anota el fiao en la libreta, da la ñapa, aguanta los apagones con el inversor y la planta, manda deliverys en motor y crece hasta ser el colmadón del barrio.",
+      "apk": "https://github.com/rdayntgames/rdayntgames.github.io/releases/download/juegos/ElColmadon-1.0.apk",
+      "web": "jugar/el-colmadon/?v=1"
+    },
+    {
       "id": "ntcityrd",
       "nombre": "NT City RD",
       "paquete": "rd.ntcity.juego",
