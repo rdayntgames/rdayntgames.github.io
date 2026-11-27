@@ -16,6 +16,68 @@
     return b;
   }
 
+  // ---- El tráiler de cada juego (se ve encima de la página, sin salir de ella) ----
+  // Los videos viven solo en la dirección nueva (la copia vieja de la tienda no los lleva).
+  var BASE = location.hostname === "rdayntgames.github.io" ? "https://ntjuegas.github.io/" : "";
+  var cerrarAbierto = null;   // si hay un tráiler abierto, esto lo cierra
+  // El botón de «atrás» (del navegador o del teléfono) cierra el tráiler en vez de salir de la página.
+  window.addEventListener("popstate", function () { if (cerrarAbierto) cerrarAbierto(true); });
+
+  function verTrailer(j) {
+    if (cerrarAbierto) return;
+    // con el teléfono parado sale el tráiler vertical; acostado o en la computadora, el horizontal
+    var vertical = !!j.trailer_vertical && window.innerHeight > window.innerWidth;
+    var capa = document.createElement("div");
+    capa.className = "trailer-capa" + (vertical ? " vertical" : "");
+    capa.innerHTML = '<div class="trailer-caja"><div class="trailer-arriba"><b></b>' +
+      '<button type="button" class="trailer-cerrar">✕ Cerrar</button></div>' +
+      '<video controls playsinline webkit-playsinline preload="auto"></video></div>';
+    capa.querySelector("b").textContent = "Tráiler de " + j.nombre;
+    var v = capa.querySelector("video");
+    if (enApp) v.setAttribute("controlsList", "nofullscreen");   // (dentro de la app ya llena la pantalla)
+    v.poster = BASE + ((vertical && j.trailer_portada_vertical) || j.trailer_portada || "");
+    v.src = BASE + (vertical ? j.trailer_vertical : j.trailer);
+    var empujado = false;   // (se puso una entrada en el historial pa' que «atrás» lo cierre)
+    function tecla(e) { if (e.key === "Escape" || e.key === "Esc") cerrar(false); }
+    function cerrar(desdeAtras) {
+      if (cerrarAbierto !== cerrar) return;
+      cerrarAbierto = null;
+      v.pause();
+      v.removeAttribute("src");   // (que deje de bajar el video)
+      v.load();
+      if (capa.parentNode) capa.parentNode.removeChild(capa);
+      document.removeEventListener("keydown", tecla);
+      document.body.style.overflow = "";
+      if (!desdeAtras && empujado) history.back();
+    }
+    cerrarAbierto = cerrar;
+    capa.addEventListener("click", function (e) { if (e.target === capa) cerrar(false); });
+    capa.querySelector(".trailer-cerrar").onclick = function () { cerrar(false); };
+    document.addEventListener("keydown", tecla);
+    document.body.style.overflow = "hidden";
+    document.body.appendChild(capa);
+    try { history.pushState({ trailer: j.id }, ""); empujado = true; } catch (e) {}
+    var p = v.play();
+    if (p && p.catch) p.catch(function () {});   // (si el teléfono no deja que arranque solo, se toca ▶)
+  }
+
+  // La foto del juego con el ▶ encima (también abre el tráiler).
+  function fotoConTrailer(d, j) {
+    var img = d.querySelector("img");
+    var marco = document.createElement("button");
+    marco.type = "button";
+    marco.className = "foto-trailer";
+    marco.setAttribute("aria-label", "Ver el tráiler de " + j.nombre);
+    img.parentNode.insertBefore(marco, img);
+    marco.appendChild(img);
+    marco.insertAdjacentHTML("beforeend", '<span class="play" aria-hidden="true">▶</span><span class="etiqueta-trailer">Tráiler del juego</span>');
+    marco.onclick = function () { verTrailer(j); };
+  }
+
+  function botonTrailer(j) {
+    return boton("▶ Ver el tráiler del juego", "rojo", function () { verTrailer(j); });
+  }
+
   function tarjeta(j) {
     var d = document.createElement("div");
     d.className = "juego";
@@ -28,9 +90,11 @@
     d.querySelector(".datos").textContent =
       (j.version_texto || "") + (j.tamano ? " · " + j.tamano : "");
     var acc = d.querySelector(".acciones");
+    if (j.trailer) fotoConTrailer(d, j);
 
     if (j.estado === "pronto" || (!j.apk && !j.web)) {
       acc.appendChild(boton("Próximamente", "gris"));
+      if (j.trailer) acc.appendChild(botonTrailer(j));
       return d;
     }
     if (!enApp) {
@@ -53,6 +117,7 @@
       if (esIOS && !j.web) {
         acc.appendChild(boton("Pronto en iPhone", "gris"));
       }
+      if (j.trailer) acc.appendChild(botonTrailer(j));
       return d;
     }
     var instalada = Tienda.versionInstalada(j.paquete); // -1 = no está
@@ -67,6 +132,7 @@
         Tienda.descargar(j.id, new URL(j.apk, location.href).href, j.nombre);
       }));
     }
+    if (j.trailer) acc.appendChild(botonTrailer(j));
     return d;
   }
 

@@ -34,4 +34,18 @@ body.ios #bajarTienda,body.ios .portada>.nota{display:none}
 .marca,.arriba nav a{white-space:nowrap}
 @media (max-width:480px){.marca{font-size:16px}.arriba nav a:first-child{display:none}.arriba nav a{margin-left:10px;font-size:14px}}
 footer{border-top:1px solid var(--borde);text-align:center;padding:20px;color:var(--suave);font-size:14px}
+/* el tráiler de cada juego */
+.boton.rojo{background:var(--rojo)}
+.juego .acciones>*+*{margin-top:8px}
+.foto-trailer{position:relative;display:block;width:100%;padding:0;margin:0;border:0;background:none;cursor:pointer;color:inherit;font:inherit}
+.foto-trailer img{display:block}
+.foto-trailer .play{position:absolute;left:50%;top:50%;width:66px;height:66px;margin:-33px 0 0 -33px;border-radius:50%;background:rgba(214,40,57,.93);color:#fff;font-size:27px;line-height:66px;text-align:center;text-indent:5px;box-shadow:0 4px 18px rgba(0,0,0,.5);transition:transform .15s}
+.foto-trailer:hover .play,.foto-trailer:focus .play{transform:scale(1.1)}
+.foto-trailer .etiqueta-trailer{position:absolute;left:10px;bottom:10px;background:rgba(13,18,32,.86);color:#fff;font-size:13px;font-weight:700;padding:4px 10px;border-radius:8px}
+.trailer-capa{position:fixed;top:0;right:0;bottom:0;left:0;z-index:50;background:rgba(5,8,16,.94);display:flex;align-items:center;justify-content:center;padding:10px}
+.trailer-caja{width:100%;max-width:1100px;display:flex;flex-direction:column}
+.trailer-arriba{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:8px;color:var(--texto)}
+.trailer-cerrar{background:#2b3552;color:#fff;border:0;border-radius:10px;padding:9px 16px;font-size:15px;font-weight:600;cursor:pointer;white-space:nowrap}
+.trailer-caja video{display:block;width:100%;max-height:calc(100vh - 80px);max-height:calc(100dvh - 80px);background:#000;border-radius:12px}
+.trailer-capa.vertical .trailer-caja{max-width:calc((100vh - 80px) * 9 / 16);max-width:calc((100dvh - 80px) * 9 / 16)}
 body.en-app .arriba nav,body.en-app #portada,body.en-app footer{display:none}
