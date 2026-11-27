@@ -3,6 +3,11 @@
 (function () {
   var enApp = typeof window.Tienda !== "undefined";
   if (enApp) document.body.classList.add("en-app");
+  // Desde la app 1.5 (versionCode 6) la app ya no instala por dentro (Google Play Protect la marcaba
+  // como «dañina»): el juego se baja con el navegador y se instala desde ahí. Las apps viejas siguen igual.
+  var versionApp = -1;
+  try { if (enApp) versionApp = Tienda.versionTienda(); } catch (e) {}
+  var appNavegador = versionApp >= 6;
   // iPhone, iPad (los iPad nuevos dicen «Macintosh» pero tienen pantalla táctil)
   var esIOS = /iPhone|iPad|iPod/.test(navigator.userAgent) ||
     (/Macintosh/.test(navigator.userAgent) && navigator.maxTouchPoints > 1);
@@ -126,14 +131,38 @@
     } else {
       var texto = instalada < 0 ? "Instalar" : "Actualizar";
       acc.appendChild(boton(texto, "", function () {
+        var url = new URL(j.apk, location.href).href;
+        if (appNavegador) {
+          // app 1.5 o más nueva: lo baja el navegador del teléfono y se instala desde ahí
+          var b = this;
+          b.textContent = "Bajando en el navegador…";
+          b.disabled = true;
+          notaInstalar(d, instalada < 0);
+          setTimeout(function () { b.textContent = texto; b.disabled = false; }, 8000);
+          Tienda.descargar(j.id, url, j.nombre);
+          return;
+        }
         this.textContent = "Descargando…";
         this.disabled = true;
         d.querySelector(".barra").style.display = "block";
-        Tienda.descargar(j.id, new URL(j.apk, location.href).href, j.nombre);
+        Tienda.descargar(j.id, url, j.nombre);
       }));
     }
     if (j.trailer) acc.appendChild(botonTrailer(j));
     return d;
+  }
+
+  // Debajo del juego: qué hacer cuando el navegador termine de bajarlo (app 1.5 o más nueva).
+  function notaInstalar(d, nuevo) {
+    var n = d.querySelector(".nota-instalar");
+    if (!n) {
+      n = document.createElement("p");
+      n.className = "nota nota-instalar";
+      d.querySelector(".info").appendChild(n);
+    }
+    n.textContent = "Se está bajando con el navegador. Cuando termine, toca el archivo para " +
+      (nuevo ? "instalarlo" : "actualizarlo") + " (si Android pide permiso, actívalo). " +
+      "Después vuelve aquí y el botón dirá «Jugar».";
   }
 
   // Android llama a esto mientras baja: progreso("ntcityrd", 0..100)
@@ -157,7 +186,9 @@
         });
         if (enApp && Tienda.versionTienda() < datos.tienda.version) {
           var aviso = tarjeta({ id: "tienda", nombre: "Hay una versión nueva de NT Juegos",
-            descripcion: "Actualízala con un toque para tener todo lo nuevo.",
+            descripcion: appNavegador
+              ? "Toca «Actualizar»: se baja con el navegador y la instalas encima de esta."
+              : "Actualízala con un toque para tener todo lo nuevo.",
             paquete: datos.tienda.paquete, version: datos.tienda.version,
             apk: datos.tienda.apk, estado: "listo" });
           aviso.setAttribute("data-id", "tienda");

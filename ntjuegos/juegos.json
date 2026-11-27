@@ -1,7 +1,7 @@
 {
   "tienda": {
     "nombre": "NT Juegos",
-    "version": 5,
+    "version": 6,
     "apk": "descargas/NTJuegos.apk",
     "paquete": "rd.juegard.app"
   },
