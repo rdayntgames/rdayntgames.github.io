@@ -94,6 +94,14 @@
     d.querySelector(".desc").textContent = j.descripcion || "";
     d.querySelector(".datos").textContent =
       (j.version_texto || "") + (j.tamano ? " · " + j.tamano : "");
+    if (j.apk && j.estado !== "pronto" && j.id !== "tienda") {
+      // contador de descargas (lo llena ponerCuentas cuando GitHub contesta)
+      var c = document.createElement("span");
+      c.className = "cuenta";
+      c.setAttribute("data-base", baseArchivo(j.apk));
+      c.setAttribute("data-antes", d.querySelector(".datos").textContent ? " · " : "");
+      d.querySelector(".datos").appendChild(c);
+    }
     var acc = d.querySelector(".acciones");
     if (j.trailer) fotoConTrailer(d, j);
 
@@ -152,6 +160,57 @@
     return d;
   }
 
+  // ---- Contador de descargas ----
+  // Los APK viven en GitHub «Releases» y GitHub cuenta cada descarga. Se suman todas las versiones de cada
+  // archivo: «DaleConchoRD-0.34.apk» + «DaleConchoRD-0.35.apk»… -> «DaleConchoRD»; la tienda es «NTJuegos».
+  var REPOS = ["rdayntgames/rdayntgames.github.io", "ntjuegas/ntjuegas.github.io"];
+  var cuentas = null;   // { "DaleConchoRD": 23, ... } cuando ya llegaron
+
+  function baseArchivo(url) {
+    var nombre = String(url).split("?")[0].split("/").pop();
+    return nombre.replace(/\.apk$/i, "").replace(/-[0-9][0-9.]*$/, "");
+  }
+
+  function ponerCuentas() {
+    if (!cuentas) return;
+    Array.prototype.forEach.call(document.querySelectorAll("[data-base]"), function (el) {
+      var n = cuentas[el.getAttribute("data-base")] || 0;
+      if (n < 1) { el.textContent = ""; return; }   // (en 0 no se muestra)
+      el.textContent = (el.getAttribute("data-antes") || "") + "⬇ " + n.toLocaleString("es-DO") +
+        (n === 1 ? " descarga" : " descargas") + (el.getAttribute("data-despues") || "");
+    });
+  }
+
+  function contarDescargas() {
+    var GUARDA = "ntj_descargas", VIGENCIA = 5 * 60 * 1000;   // se vuelve a preguntar cada 5 minutos
+    try {
+      var g = JSON.parse(localStorage.getItem(GUARDA) || "null");
+      if (g && g.n && Date.now() - g.t < VIGENCIA) { cuentas = g.n; ponerCuentas(); return; }
+    } catch (e) {}
+    Promise.all(REPOS.map(function (repo) {
+      return fetch("https://api.github.com/repos/" + repo + "/releases?per_page=100")
+        .then(function (r) { return r.ok ? r.json() : []; })
+        .catch(function () { return []; });
+    })).then(function (listas) {
+      var n = {}, hay = false;
+      listas.forEach(function (rels) {
+        if (!Array.isArray(rels)) return;
+        rels.forEach(function (rel) {
+          (rel.assets || []).forEach(function (a) {
+            if (!/\.apk$/i.test(a.name)) return;
+            var b = baseArchivo(a.name);
+            n[b] = (n[b] || 0) + (a.download_count || 0);
+            hay = true;
+          });
+        });
+      });
+      if (!hay) return;   // (GitHub no contestó: no se muestra nada)
+      cuentas = n;
+      try { localStorage.setItem(GUARDA, JSON.stringify({ t: Date.now(), n: n })); } catch (e) {}
+      ponerCuentas();
+    });
+  }
+
   // Debajo del juego: qué hacer cuando el navegador termine de bajarlo (app 1.5 o más nueva).
   function notaInstalar(d, nuevo) {
     var n = d.querySelector(".nota-instalar");
@@ -194,6 +253,7 @@
           aviso.setAttribute("data-id", "tienda");
           lista.insertBefore(aviso, lista.firstChild);
         }
+        ponerCuentas();
       })
       .catch(function () {
         document.getElementById("lista").innerHTML =
@@ -201,4 +261,5 @@
       });
   }
   cargar();
+  contarDescargas();
 })();

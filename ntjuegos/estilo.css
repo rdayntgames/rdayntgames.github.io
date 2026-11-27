@@ -22,6 +22,7 @@ h2{font-size:22px}
 .juego .info{padding:14px;display:flex;flex-direction:column;gap:8px;flex:1}
 .juego h3{margin:0}
 .juego .datos{color:var(--suave);font-size:13px}
+.cuenta{color:var(--texto);font-weight:600;white-space:nowrap}
 .juego .acciones{margin-top:auto;display:flex;flex-direction:column;align-items:stretch;text-align:center}
 .boton.oscuro{background:#2b3552}
 .contacto-botones{display:flex;flex-wrap:wrap;gap:10px}

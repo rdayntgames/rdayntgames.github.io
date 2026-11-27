@@ -2,7 +2,7 @@
   "tienda": {
     "nombre": "NT Juegos",
     "version": 6,
-    "apk": "descargas/NTJuegos.apk",
+    "apk": "https://github.com/ntjuegas/ntjuegas.github.io/releases/latest/download/NTJuegos.apk",
     "paquete": "rd.juegard.app"
   },
   "juegos": [
